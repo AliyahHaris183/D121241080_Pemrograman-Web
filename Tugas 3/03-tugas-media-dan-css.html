@@ -314,3 +314,104 @@
     </section>
 
   </main>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    // Ambil semua elemen media (video & audio)
+    const allMediaElements = document.querySelectorAll('video, audio');
+
+    // 1. AUTO-PAUSE & INTEGRASI CONTROL MEDIA OS (MediaSession API)
+    allMediaElements.forEach((media) => {
+      media.addEventListener('play', () => {
+        // Hentikan media lain saat media ini diputar
+        allMediaElements.forEach((otherMedia) => {
+          if (otherMedia !== media && !otherMedia.paused) {
+            otherMedia.pause();
+          }
+        });
+
+        // Hubungkan ke Media Session OS (Maju/Mundur 10 Detik otomatis dari OS)
+        if ('mediaSession' in navigator) {
+          const title = media.getAttribute('data-title') || 'Media Kuliah';
+          const artworkSrc = media.getAttribute('poster') || 'title.jpg';
+
+          navigator.mediaSession.metadata = new MediaMetadata({
+            title: title,
+            artist: 'E-Learning Kampus',
+            album: 'Materi Kuliah',
+            artwork: [
+              { src: artworkSrc, sizes: '512x512', type: 'image/png' }
+            ]
+          });
+
+          // Mengatur aksi Tombol Mundur 10 detik dari OS
+          navigator.mediaSession.setActionHandler('seekbackward', (details) => {
+            const skipTime = details.seekOffset || 10;
+            media.currentTime = Math.max(media.currentTime - skipTime, 0);
+          });
+
+          // Mengatur aksi Tombol Maju 10 detik dari OS
+          navigator.mediaSession.setActionHandler('seekforward', (details) => {
+            const skipTime = details.seekOffset || 10;
+            media.currentTime = Math.min(media.currentTime + skipTime, media.duration || Infinity);
+          });
+
+          navigator.mediaSession.setActionHandler('play', () => media.play());
+          navigator.mediaSession.setActionHandler('pause', () => media.pause());
+        }
+      });
+    });
+
+    // 2. MANAGEMENT THUMBNAIL VIDEO
+    document.querySelectorAll("[data-thumbnail]").forEach((tombol) => {
+      const wrapper = tombol.closest(".kartu-media__pemutar-wrapper");
+      const video = wrapper.querySelector(".kartu-media__video");
+
+      tombol.addEventListener("click", async () => {
+        try {
+          await video.play();
+          tombol.classList.add("kartu-media__thumbnail--sembunyi");
+        } catch (error) {
+          tombol.classList.remove("kartu-media__thumbnail--sembunyi");
+        }
+      });
+
+      // Tampilkan kembali thumbnail jika video dijeda sebelum diputar
+      video.addEventListener("pause", () => {
+        if (video.currentTime === 0) {
+          tombol.classList.remove("kartu-media__thumbnail--sembunyi");
+        }
+      });
+    });
+
+    // 3. SELESAI VIDEO (UBAH STATUS)
+    document.querySelectorAll(".kartu-media__video").forEach((video) => {
+      video.addEventListener("ended", () => {
+        const kartu = video.closest(".kartu-media");
+        const status = kartu.querySelector(".kartu-media__status");
+
+        kartu.classList.add("kartu-media--tersedia");
+
+        if (status) {
+          status.textContent = "Sudah Ditonton";
+        }
+      });
+    });
+
+    // 4. SELESAI PODCAST (UBAH STATUS)
+    document.querySelectorAll(".podcast__audio").forEach((audio) => {
+      audio.addEventListener("ended", () => {
+        const podcastKartu = audio.closest(".podcast");
+        const statusPodcast = podcastKartu.querySelector(".podcast__status");
+
+        podcastKartu.classList.add("podcast--didengar");
+
+        if (statusPodcast) {
+          statusPodcast.textContent = "Sudah Didengar";
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
