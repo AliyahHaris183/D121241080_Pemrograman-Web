@@ -331,3 +331,159 @@ picture {
 .kartu-media__thumbnail--sembunyi {
   display: none;
 }
+
+/* =========================================================
+   14. KONTEN KARTU
+   ========================================================= */
+
+.kartu-media__konten {
+  padding: 1.25rem 1.4rem 1.5rem;
+}
+
+.kartu-media__judul {
+  margin-bottom: 0.5rem;
+  color: #171F22; /* Dark Jungle Green */
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.kartu-media__deskripsi {
+  margin-bottom: 1rem;
+  color: #4A4D4A; /* Warna teks lebih gelap untuk latar putih */
+  font-size: 0.95rem;
+}
+
+.kartu-media__status {
+  display: inline-block;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  color: #FFFFFF;
+  font-size: 0.7rem;
+  font-weight: 400; /* Tidak bold */
+  letter-spacing: 0.06em;
+  text-transform: none; /* Tidak capslock */
+  background-color: #636467;
+}
+
+/* =========================================================
+   15. KARTU SUDAH DITONTON
+   ========================================================= */
+
+.kartu-media--tersedia {
+  border: 2px solid #636467;
+}
+
+.kartu-media--tersedia .kartu-media__deskripsi {
+  color: #171F22; /* Teks deskripsi tetap tegak/normal */
+}
+
+.kartu-media--tersedia .kartu-media__status {
+  color: #FFFFFF;
+  background-color: #171F22;
+}
+
+/* =========================================================
+   16. PODCAST
+   ========================================================= */
+
+.daftar-podcast {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+}
+
+.podcast {
+  padding: 1.4rem 1.5rem;
+  border-radius: 12px;
+  background-color: #FFFFFF; /* Putih */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.podcast:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.6);
+}
+
+.podcast__judul {
+  margin-bottom: 0.4rem;
+  color: #171F22; /* Dark Jungle Green */
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.podcast__deskripsi {
+  margin-bottom: 0.75rem;
+  color: #4A4D4A; /* Warna teks lebih gelap untuk latar putih */
+  font-size: 0.9rem;
+}
+
+.podcast__audio {
+  width: 100%;
+  margin-bottom: 0.75rem;
+}
+
+/* Status Default Podcast (Belum Didengar) */
+.podcast__status {
+  display: inline-block;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  color: #FFFFFF;
+  font-size: 0.7rem;
+  font-weight: 400; /* Tidak bold */
+  letter-spacing: 0.06em;
+  text-transform: none; /* Tidak capslock */
+  background-color: #636467;
+}
+
+/* Status Podcast (Sudah Didengar) */
+.podcast--didengar,
+.podcast--tersedia {
+  border: 2px solid #636467;
+}
+
+.podcast--didengar .podcast__deskripsi,
+.podcast--tersedia .podcast__deskripsi {
+  color: #171F22; /* Teks deskripsi tetap tegak/normal */
+}
+
+.podcast--didengar .podcast__status,
+.podcast--tersedia .podcast__status {
+  color: #FFFFFF;
+  background-color: #171F22;
+}
+
+/* =========================================================
+   17. RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 640px) {
+  .hero {
+    min-height: 380px;
+  }
+
+  .hero__nav {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .bagian {
+    padding-bottom: 3rem;
+  }
+
+  .bagian__banner {
+    min-height: 300px;
+    padding: 2rem 1.25rem;
+  }
+
+  .bagian__isi {
+    margin-top: -100px;
+    padding: 0 1.25rem;
+  }
+
+  .daftar-kartu,
+  .daftar-podcast {
+    grid-template-columns: 1fr;
+  }
+}
