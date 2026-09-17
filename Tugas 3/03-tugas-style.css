@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@0;1&display=swap');
+
+/* =========================================================
+   1. RESET GLOBAL
+   ========================================================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Baskervville", Georgia, "Times New Roman", serif;
+  color: #C1D1CF; /* Jet Stream */
+  line-height: 1.6;
+  background-color: #171F22; /* Dark Jungle Green */
+}
+
+img,
+video,
+picture {
+  display: block;
+  max-width: 100%;
+}
