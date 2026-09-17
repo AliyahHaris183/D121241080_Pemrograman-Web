@@ -168,3 +168,166 @@ picture {
     rgba(23, 31, 34, 0.95) 100%
   );
 }
+
+/* =========================================================
+   6. BANNER JUDUL
+   ========================================================= */
+
+.bagian__banner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100%;
+  min-height: 430px;
+  padding: 3rem clamp(1.25rem, 5vw, 4rem);
+}
+
+/* =========================================================
+   7. TYPOGRAPHY SECTION
+   ========================================================= */
+
+.kicker {
+  margin-bottom: 0.5rem;
+  color: #636467;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.kicker--terang {
+  color: #C1D1CF;
+  opacity: 0.85;
+}
+
+.bagian__judul {
+  color: #FFFFFF;
+  font-size: clamp(1.5rem, 3.5vw, 2.4rem);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+
+.bagian__judul--terang {
+  color: #FFFFFF;
+}
+
+/* =========================================================
+   8. ISI SECTION
+   ========================================================= */
+
+.bagian__isi {
+  position: relative;
+  z-index: 2;
+  max-width: 1180px;
+  margin: -205px auto 0;
+  padding: 0 clamp(1.25rem, 5vw, 4rem);
+}
+
+/* =========================================================
+   9. GRID KARTU VIDEO
+   ========================================================= */
+
+.daftar-kartu {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.75rem;
+}
+
+/* =========================================================
+   10. KARTU VIDEO
+   ========================================================= */
+
+.kartu-media {
+  overflow: hidden;
+  border-radius: 14px;
+  background-color: #FFFFFF; /* Putih */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.kartu-media:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 35px rgba(0, 0, 0, 0.6);
+}
+
+/* =========================================================
+   11. VIDEO
+   ========================================================= */
+
+.kartu-media__pemutar-wrapper {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  background-color: #171F22;
+}
+
+.kartu-media__video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* =========================================================
+   12. THUMBNAIL
+   ========================================================= */
+
+.kartu-media__thumbnail {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.kartu-media__thumbnail picture,
+.kartu-media__thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.kartu-media__thumbnail::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(23, 31, 34, 0.3);
+  transition: background 0.3s ease;
+}
+
+.kartu-media__thumbnail:hover::before {
+  background: rgba(23, 31, 34, 0.5);
+}
+
+/* =========================================================
+   13. PLAY BUTTON
+   ========================================================= */
+
+.kartu-media__play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  padding-left: 0.2rem;
+  border-radius: 50%;
+  color: #171F22;
+  font-size: 1.1rem;
+  background-color: #FFFFFF;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+  transform: translate(-50%, -50%);
+}
+
+.kartu-media__thumbnail--sembunyi {
+  display: none;
+}
