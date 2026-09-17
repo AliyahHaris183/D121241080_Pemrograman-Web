@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pemutar Media Kuliah Responsif</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baskervville:ital@0;1&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="03-tugas-style.css">
+</head>
+
+<body>
+
+  <!-- HERO SECTION -->
+  <header class="hero" style="background-image: url('title.jpg');">
+    <nav class="hero__nav">
+      <span class="hero__merek">E-Learning Kampus</span>
+
+      <div class="hero__tautan">
+        <a href="#video">Video</a>
+        <a href="#podcast">Podcast</a>
+      </div>
+    </nav>
+
+    <div class="hero__isi">
+      <h1 class="hero__judul">
+        Pemutar Media<br>Kuliah Responsif
+      </h1>
+
+      <p class="hero__deskripsi">
+        Dapatkan pengetahuan hanya dengan ujung jari.
+      </p>
+
+      <a href="#video" class="tombol tombol--terang">
+        Mulai Belajar
+      </a>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- VIDEO KULIAH SECTION -->
+    <section
+      class="bagian bagian--video"
+      id="video"
+      style="background-image: url('video.jpg');"
+    >
+      <div class="bagian__overlay"></div>
+
+      <div class="bagian__banner">
+        <p class="kicker kicker--terang">Materi Pilihan</p>
+        <h2 class="bagian__judul bagian__judul--terang">
+          Video Kuliah
+        </h2>
+      </div>
+
+      <div class="bagian__isi">
+        <div class="daftar-kartu">
+
+          <!-- KARTU VIDEO 1 -->
+          <article class="kartu-media">
+            <div class="kartu-media__pemutar-wrapper">
+
+              <video
+                class="kartu-media__video"
+                controls
+                preload="metadata"
+                poster="flutter.webp"
+                data-title="Pengenalan Flutter"
+              >
+                <source src="flutter.webm" type="video/webm">
+                <source src="flutter.mp4" type="video/mp4">
+
+                Peramban Anda tidak mendukung pemutaran video HTML5.
+                <a href="flutter.mp4">Unduh videonya di sini</a>.
+              </video>
+
+              <button
+                type="button"
+                class="kartu-media__thumbnail"
+                data-thumbnail
+                aria-label="Putar video Pengenalan Flutter"
+              >
+                <picture>
+                  <!-- Layar lebar (>=640px): crop/gambar WebP resolusi penuh -->
+                  <source
+                    srcset="flutter.webp"
+                    media="(min-width: 640px)"
+                    type="image/webp"
+                  >
+                  <!-- Layar sempit (<640px): crop khusus mobile (Art Direction) -->
+                  <source
+                    srcset="flutter-mobile.webp"
+                    media="(max-width: 639px)"
+                    type="image/webp"
+                  >
+                  <img
+                    src="flutter.png"
+                    alt="Ilustrasi sampul materi kuliah Flutter"
+                    loading="lazy"
+                  >
+                </picture>
+
+                <span class="kartu-media__play" aria-hidden="true">
+                  &#9658;
+                </span>
+              </button>
+
+            </div>
+
+            <div class="kartu-media__konten">
+              <h3 class="kartu-media__judul">
+                Pengenalan Flutter
+              </h3>
+
+              <p class="kartu-media__deskripsi">
+                Materi ini membahas dasar-dasar pengembangan aplikasi menggunakan framework Flutter, mulai dari widget hingga struktur proyek.
+              </p>
+
+              <span class="kartu-media__status">
+                Belum Ditonton
+              </span>
+            </div>
+          </article>
+
+          <!-- KARTU VIDEO 2 -->
+          <article class="kartu-media">
+            <div class="kartu-media__pemutar-wrapper">
+
+              <video
+                class="kartu-media__video"
+                controls
+                preload="metadata"
+                poster="java.jpg"
+                data-title="Dasar Pemrograman Java"
+              >
+                <source src="java.webm" type="video/webm">
+                <source src="java.mp4" type="video/mp4">
+
+                Peramban Anda tidak mendukung pemutaran video HTML5.
+                <a href="java.mp4">Unduh videonya di sini</a>.
+              </video>
+
+              <button
+                type="button"
+                class="kartu-media__thumbnail"
+                data-thumbnail
+                aria-label="Putar video Dasar Pemrograman Java"
+              >
+                <picture>
+                  <!-- Layar lebar (>=640px): gambar WebP resolusi penuh -->
+                  <source
+                    srcset="java.webp"
+                    media="(min-width: 640px)"
+                    type="image/webp"
+                  >
+                  <!-- Layar sempit (<640px): crop khusus mobile (Art Direction) -->
+                  <source
+                    srcset="java-mobile.webp"
+                    media="(max-width: 639px)"
+                    type="image/webp"
+                  >
+                  <img
+                    src="java.jpg"
+                    alt="Ilustrasi sampul materi Java"
+                    loading="lazy"
+                  >
+                </picture>
+
+                <span class="kartu-media__play" aria-hidden="true">
+                  &#9658;
+                </span>
+              </button>
+
+            </div>
+
+            <div class="kartu-media__konten">
+              <h3 class="kartu-media__judul">
+                Dasar Pemrograman Java
+              </h3>
+
+              <p class="kartu-media__deskripsi">
+                Materi ini membahas sintaks dasar Java, tipe data, dan struktur kontrol yang umum digunakan dalam pemrograman berorientasi objek.
+              </p>
+
+              <span class="kartu-media__status">
+                Belum Ditonton
+              </span>
+            </div>
+          </article>
+
+          <!-- KARTU VIDEO 3 -->
+          <article class="kartu-media">
+            <div class="kartu-media__pemutar-wrapper">
+
+              <video
+                class="kartu-media__video"
+                controls
+                preload="metadata"
+                poster="string.jpg"
+                data-title="Manipulasi String"
+              >
+                <source src="string.webm" type="video/webm">
+                <source src="string.mp4" type="video/mp4">
+
+                Peramban Anda tidak mendukung pemutaran video HTML5.
+                <a href="string.mp4">Unduh videonya di sini</a>.
+              </video>
+
+              <button
+                type="button"
+                class="kartu-media__thumbnail"
+                data-thumbnail
+                aria-label="Putar video Manipulasi String"
+              >
+                <picture>
+                  <!-- Layar lebar (>=640px): gambar WebP resolusi penuh -->
+                  <source
+                    srcset="string.webp"
+                    media="(min-width: 640px)"
+                    type="image/webp"
+                  >
+                  <!-- Layar sempit (<640px): crop khusus mobile (Art Direction) -->
+                  <source
+                    srcset="string-mobile.webp"
+                    media="(max-width: 639px)"
+                    type="image/webp"
+                  >
+                  <img
+                    src="string.jpg"
+                    alt="Ilustrasi sampul materi manipulasi string"
+                    loading="lazy"
+                  >
+                </picture>
+
+                <span class="kartu-media__play" aria-hidden="true">
+                  &#9658;
+                </span>
+              </button>
+
+            </div>
+
+            <div class="kartu-media__konten">
+              <h3 class="kartu-media__judul">
+                Manipulasi String
+              </h3>
+
+              <p class="kartu-media__deskripsi">
+                Materi ini membahas operasi umum pada tipe data string, termasuk penggabungan, pemotongan, dan pencarian teks.
+              </p>
+
+              <span class="kartu-media__status">
+                Belum Ditonton
+              </span>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- PODCAST SECTION -->
+    <section
+      class="bagian bagian--podcast"
+      id="podcast"
+      style="background-image: url('podcast.jpg');"
+    >
+      <div class="bagian__overlay"></div>
+
+      <div class="bagian__banner">
+        <p class="kicker kicker--terang">
+          Dengarkan Sambil Santai
+        </p>
+
+        <h2 class="bagian__judul bagian__judul--terang">
+          Podcast Pendukung
+        </h2>
+      </div>
+
+      <div class="bagian__isi">
+        <div class="daftar-podcast">
+
+          <!-- PODCAST 1 -->
+          <article class="podcast">
+            <h3 class="podcast__judul">
+              Dasar UI/UX
+            </h3>
+
+            <p class="podcast__deskripsi">
+              Pembahasan singkat mengenai prinsip desain antarmuka dan pengalaman pengguna.
+            </p>
+
+            <audio
+              class="podcast__audio"
+              controls
+              preload="metadata"
+              data-title="Dasar UI/UX"
+            >
+              <source src="uiux.mp3" type="audio/mpeg">
+
+              Peramban Anda tidak mendukung pemutaran audio HTML5.
+            </audio>
+
+            <span class="podcast__status">
+              Belum Didengar
+            </span>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    // Ambil semua elemen media (video & audio)
+    const allMediaElements = document.querySelectorAll('video, audio');
+
+    // 1. AUTO-PAUSE & INTEGRASI CONTROL MEDIA OS (MediaSession API)
+    allMediaElements.forEach((media) => {
+      media.addEventListener('play', () => {
+        // Hentikan media lain saat media ini diputar
+        allMediaElements.forEach((otherMedia) => {
+          if (otherMedia !== media && !otherMedia.paused) {
+            otherMedia.pause();
+          }
+        });
+
+        // Hubungkan ke Media Session OS (Maju/Mundur 10 Detik otomatis dari OS)
+        if ('mediaSession' in navigator) {
+          const title = media.getAttribute('data-title') || 'Media Kuliah';
+          const artworkSrc = media.getAttribute('poster') || 'title.jpg';
+
+          navigator.mediaSession.metadata = new MediaMetadata({
+            title: title,
+            artist: 'E-Learning Kampus',
+            album: 'Materi Kuliah',
+            artwork: [
+              { src: artworkSrc, sizes: '512x512', type: 'image/png' }
+            ]
+          });
+
+          // Mengatur aksi Tombol Mundur 10 detik dari OS
+          navigator.mediaSession.setActionHandler('seekbackward', (details) => {
+            const skipTime = details.seekOffset || 10;
+            media.currentTime = Math.max(media.currentTime - skipTime, 0);
+          });
+
+          // Mengatur aksi Tombol Maju 10 detik dari OS
+          navigator.mediaSession.setActionHandler('seekforward', (details) => {
+            const skipTime = details.seekOffset || 10;
+            media.currentTime = Math.min(media.currentTime + skipTime, media.duration || Infinity);
+          });
+
+          navigator.mediaSession.setActionHandler('play', () => media.play());
+          navigator.mediaSession.setActionHandler('pause', () => media.pause());
+        }
+      });
+    });
+
+    // 2. MANAGEMENT THUMBNAIL VIDEO
+    document.querySelectorAll("[data-thumbnail]").forEach((tombol) => {
+      const wrapper = tombol.closest(".kartu-media__pemutar-wrapper");
+      const video = wrapper.querySelector(".kartu-media__video");
+
+      tombol.addEventListener("click", async () => {
+        try {
+          await video.play();
+          tombol.classList.add("kartu-media__thumbnail--sembunyi");
+        } catch (error) {
+          tombol.classList.remove("kartu-media__thumbnail--sembunyi");
+        }
+      });
+
+      // Tampilkan kembali thumbnail jika video dijeda sebelum diputar
+      video.addEventListener("pause", () => {
+        if (video.currentTime === 0) {
+          tombol.classList.remove("kartu-media__thumbnail--sembunyi");
+        }
+      });
+    });
+
+    // 3. SELESAI VIDEO (UBAH STATUS)
+    document.querySelectorAll(".kartu-media__video").forEach((video) => {
+      video.addEventListener("ended", () => {
+        const kartu = video.closest(".kartu-media");
+        const status = kartu.querySelector(".kartu-media__status");
+
+        kartu.classList.add("kartu-media--tersedia");
+
+        if (status) {
+          status.textContent = "Sudah Ditonton";
+        }
+      });
+    });
+
+    // 4. SELESAI PODCAST (UBAH STATUS)
+    document.querySelectorAll(".podcast__audio").forEach((audio) => {
+      audio.addEventListener("ended", () => {
+        const podcastKartu = audio.closest(".podcast");
+        const statusPodcast = podcastKartu.querySelector(".podcast__status");
+
+        podcastKartu.classList.add("podcast--didengar");
+
+        if (statusPodcast) {
+          statusPodcast.textContent = "Sudah Didengar";
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
