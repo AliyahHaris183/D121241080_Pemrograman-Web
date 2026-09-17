@@ -13,7 +13,7 @@
 </head>
 
 <body>
-  
+
   <!-- HERO SECTION -->
   <header class="hero" style="background-image: url('title.jpg');">
     <nav class="hero__nav">
@@ -261,3 +261,56 @@
         </div>
       </div>
     </section>
+
+    <!-- PODCAST SECTION -->
+    <section
+      class="bagian bagian--podcast"
+      id="podcast"
+      style="background-image: url('podcast.jpg');"
+    >
+      <div class="bagian__overlay"></div>
+
+      <div class="bagian__banner">
+        <p class="kicker kicker--terang">
+          Dengarkan Sambil Santai
+        </p>
+
+        <h2 class="bagian__judul bagian__judul--terang">
+          Podcast Pendukung
+        </h2>
+      </div>
+
+      <div class="bagian__isi">
+        <div class="daftar-podcast">
+
+          <!-- PODCAST 1 -->
+          <article class="podcast">
+            <h3 class="podcast__judul">
+              Dasar UI/UX
+            </h3>
+
+            <p class="podcast__deskripsi">
+              Pembahasan singkat mengenai prinsip desain antarmuka dan pengalaman pengguna.
+            </p>
+
+            <audio
+              class="podcast__audio"
+              controls
+              preload="metadata"
+              data-title="Dasar UI/UX"
+            >
+              <source src="uiux.mp3" type="audio/mpeg">
+
+              Peramban Anda tidak mendukung pemutaran audio HTML5.
+            </audio>
+
+            <span class="podcast__status">
+              Belum Didengar
+            </span>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
