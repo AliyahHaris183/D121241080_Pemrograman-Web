@@ -1000,3 +1000,111 @@ a:hover {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+
+/* =========================================================
+   12. RESPONSIVE: PONSEL KECIL
+   ========================================================= */
+
+@media (max-width: 575.98px) {
+  .hero {
+    min-height: 60vh;
+    padding: 6rem 1.25rem 1.25rem;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+  }
+
+  .hero-title {
+    font-size: clamp(2rem, 9vw, 2.8rem);
+  }
+
+  .hero-desc {
+    font-size: 0.98rem;
+  }
+
+  .hero-footline {
+    gap: 0.5rem 1rem;
+    font-size: 0.72rem;
+  }
+
+  .rak-pustaka {
+    padding: 3rem 1rem;
+  }
+
+  .rak-title {
+    margin-bottom: 2rem;
+    font-size: 1.6rem;
+  }
+
+  .book-label {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.15rem;
+
+    padding: 0.6rem 0.8rem;
+  }
+
+  .book-label .instansi {
+    white-space: normal;
+  }
+
+  .book-cover {
+    height: 72px;
+  }
+
+  .layout {
+    width: calc(100% - 2rem);
+    gap: 1.75rem;
+    padding: 2rem 0 3rem;
+  }
+
+  .sidebar-list {
+    grid-template-columns: 1fr;
+  }
+
+  .main-content > .d-flex h2 {
+    font-size: 1.45rem;
+  }
+
+  .article-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .article-card .card-body {
+    padding: 1.1rem;
+  }
+
+  .aside-kanan {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .footer-custom {
+    padding: 1.25rem 1rem;
+    font-size: 0.78rem;
+  }
+}
+
+
+/* =========================================================
+   13. AKSESIBILITAS
+   ========================================================= */
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--clr-rust);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
