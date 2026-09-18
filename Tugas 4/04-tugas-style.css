@@ -64,3 +64,86 @@ a:hover {
   background: #e5d5bd;
   color: var(--clr-ink);
 }
+
+
+/* =========================================================
+   2. HERO
+   ========================================================= */
+
+.hero-wrap {
+  position: relative;
+}
+
+.hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  min-height: 78vh;
+  padding: 8rem 1.5rem 1.5rem;
+
+  color: #fffdf7;
+  background-color: #171410;
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(10, 8, 5, 0.78) 0%,
+      rgba(10, 8, 5, 0.6) 40%,
+      rgba(10, 8, 5, 0.88) 100%
+    ),
+    url("title.jpg");
+
+  background-size: cover;
+  background-position: center;
+}
+
+.hero-text {
+  max-width: 720px;
+  margin: auto;
+  text-align: center;
+}
+
+.hero-eyebrow {
+  margin: 0 0 1rem;
+
+  color: #e5d5bd;
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.hero-title {
+  margin: 0 0 1.1rem;
+
+  color: #fffdf7;
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.15;
+}
+
+.hero-desc {
+  max-width: 520px;
+  margin: 0 auto;
+
+  color: #ece6d5;
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.hero-footline {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 2rem;
+
+  padding-top: 1rem;
+  border-top: 1px solid rgba(246, 242, 231, 0.35);
+
+  color: #ddd5bc;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
