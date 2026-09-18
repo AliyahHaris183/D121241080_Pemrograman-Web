@@ -997,3 +997,114 @@
 
       </div>
     </main>
+
+
+    <!-- ======================= KOLOM KANAN ======================= -->
+    <aside class="aside-kanan" id="keahlian">
+
+      <div class="widget-box">
+
+        <h2 class="widget-title">
+          Statistik Portal
+        </h2>
+
+        <ul class="list-unstyled stat-list">
+
+          <li>
+            <span>Total Publikasi</span>
+            23
+          </li>
+
+          <li>
+            <span>Instansi Terlibat</span>
+            10
+          </li>
+
+          <li>
+            <span>Rentang Tahun</span>
+            2017-2025
+          </li>
+
+        </ul>
+
+      </div>
+
+
+      <div class="widget-box">
+
+        <h2 class="widget-title">
+          Bidang Keahlian
+        </h2>
+
+        <ul class="list-unstyled keahlian-list">
+
+          <li>Kecerdasan Buatan &amp; Computer Vision</li>
+          <li>Sistem Cerdas UAV &amp; IoT</li>
+          <li>Pemrosesan Bahasa Alami</li>
+          <li>Rekayasa Perangkat Lunak &amp; Sistem Terdistribusi</li>
+
+        </ul>
+
+      </div>
+
+    </aside>
+
+  </div>
+
+
+  <!-- ======================= FOOTER ======================= -->
+  <footer class="footer-custom" id="tentang">
+
+    <div class="container-fluid">
+
+      <p class="footer-kontak mb-2" id="kontak">
+        Kontak: <a href="mailto:redaksi@portaljurnal.example">redaksi@portaljurnal.example</a>
+      </p>
+
+      <p class="mb-0">
+        &copy; 2026 Konsortium Departemen Informatika Perguruan Tinggi Indonesia
+      </p>
+
+    </div>
+
+  </footer>
+
+
+  <!-- ======================= BOOTSTRAP JS ======================= -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous">
+  </script>
+
+
+  <!-- ======================= NAVIGASI MOBILE ======================= -->
+  <script>
+    const navToggle = document.getElementById("navToggle");
+    const navLinks = document.getElementById("navLinks");
+
+    navToggle.addEventListener("click", () => {
+      const isOpen = navLinks.classList.toggle("open");
+
+      navToggle.setAttribute("aria-expanded", isOpen);
+      navToggle.setAttribute(
+        "aria-label",
+        isOpen ? "Tutup navigasi" : "Buka navigasi"
+      );
+
+      navToggle.classList.toggle("active", isOpen);
+    });
+
+    // Tutup menu setelah salah satu tautan navigasi dipilih.
+    navLinks.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        navLinks.classList.remove("open");
+        navToggle.classList.remove("active");
+        navToggle.setAttribute("aria-expanded", "false");
+        navToggle.setAttribute("aria-label", "Buka navigasi");
+      });
+    });
+  </script>
+
+</body>
+</html>
