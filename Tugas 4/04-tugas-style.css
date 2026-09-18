@@ -451,3 +451,154 @@ a:hover {
   line-height: 1.6;
   text-align: center;
 }
+
+
+/* =========================================================
+   5. LAYOUT UTAMA - CSS Grid kustom
+
+   - Mobile-first (<768px):
+   - Tablet (768px–991.98px):
+   - Desktop (>=992px):
+   ========================================================= */
+
+.layout {
+  display: grid;
+
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "sidebar"
+    "main"
+    "aside";
+
+  gap: 2rem;
+
+  width: min(100% - 3rem, 1280px);
+  margin: 0 auto;
+  padding: 3rem 0 4rem;
+}
+
+.sidebar {
+  grid-area: sidebar;
+  min-width: 0;
+  color: var(--clr-ink);
+}
+
+.main-content {
+  grid-area: main;
+  min-width: 0;
+  color: var(--clr-ink);
+}
+
+.aside-kanan {
+  grid-area: aside;
+  min-width: 0;
+  color: var(--clr-ink);
+}
+
+/* --- Tablet: 768px s/d 991.98px --- */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .layout {
+    grid-template-columns: 200px 1fr;
+    grid-template-areas:
+      "sidebar main"
+      "aside   aside";
+  }
+}
+
+/* --- Desktop: mulai 992px --- */
+@media (min-width: 992px) {
+  .layout {
+    grid-template-columns: 200px 1fr 220px;
+    grid-template-areas: "sidebar main aside";
+    align-items: start;
+  }
+}
+
+
+/* =========================================================
+   6. SIDEBAR INSTANSI
+   ========================================================= */
+
+.sidebar-title {
+  margin: 0 0 0.9rem;
+  padding-bottom: 0.5rem;
+
+  color: #514536;
+  font-size: 1.05rem;
+  font-style: italic;
+  font-weight: 400;
+
+  border-bottom: 1px solid var(--clr-line);
+}
+
+.sidebar-list {
+  display: flex;
+  flex-direction: column;
+
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+}
+
+.sidebar-list li {
+  border-bottom: 1px solid var(--clr-line);
+}
+
+.sidebar-list li a {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+
+  padding: 0.6rem 0;
+
+  color: var(--clr-ink);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.sidebar-list li a:hover {
+  color: var(--clr-teal);
+}
+
+
+/* Badge angka pada sidebar */
+
+.badge {
+  display: inline-block;
+  flex-shrink: 0;
+
+  padding: 0.2em 0.6em;
+
+  /* !important WAJIB di sini: kelas bawaan Bootstrap seperti
+     .text-bg-secondary / .text-bg-primary / .text-bg-light juga
+     memakai !important pada color & background-color, jadi tanpa
+     !important di sini aturan Bootstrap yang menang (itu sebabnya
+     badge sempat tampil kotak abu-abu, bukan gaya katalog). */
+  color: var(--clr-muted) !important;
+  background: #fffdf7 !important;
+
+  border: 1px solid #b8aa8c !important;
+  border-radius: 0 !important;
+
+  font-family: var(--font-serif);
+  font-size: 0.8rem;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.sidebar-list .badge {
+  font-style: normal;
+}
+
+
+/* Sticky sidebar hanya relevan mulai desktop, saat sidebar
+   sungguh berdampingan dengan konten lain */
+@media (min-width: 992px) {
+  .sidebar {
+    position: sticky;
+    top: 2rem;
+    align-self: start;
+  }
+}
