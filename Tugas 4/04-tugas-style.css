@@ -268,3 +268,186 @@ a:hover {
 .nav-toggle.active span:nth-child(3) {
   transform: translateY(-8.5px) rotate(-45deg);
 }
+
+
+/* =========================================================
+   4. RAK PUSTAKA UNGGULAN
+   ========================================================= */
+
+.rak-pustaka {
+  padding: 4rem 1.5rem;
+
+  color: #fffdf7;
+  background: #171410;
+}
+
+.rak-inner {
+  width: 100%;
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+.rak-eyebrow {
+  margin: 0 0 0.4rem;
+
+  color: #c9bfa4;
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.rak-title {
+  margin: 0 0 3rem;
+
+  color: #fffdf7;
+  font-size: 1.8rem;
+  font-style: italic;
+  font-weight: 400;
+  text-align: center;
+}
+
+
+/* Susunan buku */
+
+.shelf {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.book {
+  position: relative;
+  display: block;
+  width: 100%;
+  margin-top: -18px;
+}
+
+.book:first-child {
+  margin-top: 0;
+}
+
+
+/* Label punggung buku */
+
+.book-label {
+  position: relative;
+  z-index: 2;
+
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+
+  padding: 0.65rem 1.1rem;
+
+  background: var(--spine, var(--clr-teal));
+  border: 1px solid rgba(255, 253, 247, 0.12);
+
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+}
+
+.book-label .judul {
+  color: #fffdf7;
+  font-size: 0.98rem;
+  font-style: italic;
+  line-height: 1.3;
+}
+
+.book-label .instansi {
+  flex: none;
+
+  color: rgba(255, 253, 247, 0.88);
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
+
+/* Sampul buku — efek 3D: perspective() + rotateX() */
+
+.book-cover {
+  position: relative;
+  z-index: 1;
+
+  height: 88px;
+
+  background: var(--cover, var(--clr-line));
+
+  transform-origin: top center;
+  transform: perspective(650px) rotateX(58deg);
+
+  transition: transform 0.25s ease;
+}
+
+.book-cover::before {
+  position: absolute;
+  inset: 0;
+
+  background: repeating-linear-gradient(
+    115deg,
+    rgba(255, 255, 255, 0.06) 0 2px,
+    transparent 2px 14px
+  );
+
+  content: "";
+  mix-blend-mode: overlay;
+}
+
+.book-cover::after {
+  position: absolute;
+  right: 1.2rem;
+  bottom: 0.6rem;
+
+  color: rgba(255, 255, 255, 0.2);
+  font-size: 2.4rem;
+  font-style: italic;
+  line-height: 1;
+
+  content: attr(data-mark);
+}
+
+.book:hover .book-cover {
+  transform: perspective(650px) rotateX(52deg);
+}
+
+
+/* Warna buku: satu palet lembut dan senada */
+
+.book:nth-child(5n + 1) {
+  --spine: #235047;
+  --cover: #647f70;
+}
+
+.book:nth-child(5n + 2) {
+  --spine: #783d24;
+  --cover: #a66e50;
+}
+
+.book:nth-child(5n + 3) {
+  --spine: #465b70;
+  --cover: #8294a3;
+}
+
+.book:nth-child(5n + 4) {
+  --spine: #666b45;
+  --cover: #929675;
+}
+
+.book:nth-child(5n) {
+  --spine: #765b69;
+  --cover: #a88b99;
+}
+
+
+/* Catatan rak */
+
+.rak-catatan {
+  max-width: 560px;
+  margin: 2.5rem auto 0;
+
+  color: #c9bfa4;
+  font-size: 0.82rem;
+  font-style: italic;
+  line-height: 1.6;
+  text-align: center;
+}
