@@ -1,0 +1,66 @@
+/* =========================================================
+   1. RESET & VARIABEL
+   ========================================================= */
+
+:root {
+  --clr-ink: #29251f;
+  --clr-paper: #f6f2e7;
+  --clr-card: #fffdf7;
+  --clr-line: #c9bfa4;
+  --clr-teal: #235047;
+  --clr-rust: #8a4a2b;
+  --clr-muted: #6d6551;
+
+  --font-serif: "Baskervville", Georgia, "Times New Roman", serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 2rem;
+}
+
+body {
+  margin: 0;
+  background: var(--clr-paper);
+  color: var(--clr-ink);
+  font-family: var(--font-serif);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+h1,
+h2,
+h3,
+p,
+span,
+a,
+li,
+button {
+  font-family: var(--font-serif);
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+a {
+  color: var(--clr-teal);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--clr-rust);
+}
+
+::selection {
+  background: #e5d5bd;
+  color: var(--clr-ink);
+}
