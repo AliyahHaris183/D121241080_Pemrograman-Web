@@ -147,3 +147,124 @@ a:hover {
   text-transform: uppercase;
 }
 
+
+/* =========================================================
+   3. NAVBAR — Flexbox murni (poin 2)
+   ========================================================= */
+
+.navbar-custom {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 50;
+
+  background: linear-gradient(
+    180deg,
+    rgba(10, 8, 5, 0.55) 0%,
+    rgba(10, 8, 5, 0) 100%
+  );
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1.25rem 1.5rem;
+}
+
+.nav-brand {
+  flex-shrink: 0;
+
+  color: #f6f2e7;
+  font-size: 1.2rem;
+  letter-spacing: 0.02em;
+}
+
+.nav-brand span {
+  color: #f6f2e7;
+}
+
+.nav-brand:hover {
+  color: #fffdf7;
+}
+
+.nav-inner nav {
+  margin-left: auto;
+}
+
+/* Tautan navigasi: flex row di desktop, column di ponsel (lihat §11) */
+.nav-links {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2rem;
+
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nav-links a {
+  display: block;
+  padding: 0.2rem 0;
+
+  color: #ece6d5;
+  font-size: 0.95rem;
+
+  border-bottom: 1px solid transparent;
+
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.nav-links a:hover {
+  color: #fffdf7;
+  border-bottom-color: #d5b89a;
+}
+
+
+/* Tombol hamburger */
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+
+  width: 26px;
+  height: 19px;
+  padding: 0;
+
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 100%;
+  height: 2px;
+
+  background: #f6f2e7;
+
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.nav-toggle.active span:nth-child(1) {
+  transform: translateY(8.5px) rotate(45deg);
+}
+
+.nav-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.nav-toggle.active span:nth-child(3) {
+  transform: translateY(-8.5px) rotate(-45deg);
+}
