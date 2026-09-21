@@ -71,3 +71,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
     }
 }
+?>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Sistem Manajemen Keuangan Sederhana</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 640px; margin: 40px auto; padding: 0 16px; }
+        h1 { font-size: 1.4rem; }
+        .balance { font-size: 1.2rem; font-weight: bold; margin: 16px 0; }
+        form { margin: 24px 0; padding: 16px; border: 1px solid #ccc; border-radius: 6px; }
+        label { display: block; margin-top: 12px; font-weight: bold; }
+        select, input[type="text"] { width: 100%; padding: 8px; margin-top: 4px; box-sizing: border-box; }
+        button { margin-top: 16px; padding: 10px 16px; cursor: pointer; }
+        .errors { color: #b00020; }
+        .success { color: #0a7a2b; }
+        ul.history { list-style: none; padding: 0; }
+        ul.history li { padding: 8px; border-bottom: 1px solid #eee; }
+        .type-deposit { color: #0a7a2b; }
+        .type-withdrawal { color: #b00020; }
+    </style>
+</head>
+<body>
+    <h1>Sistem Manajemen Keuangan Sederhana</h1>
