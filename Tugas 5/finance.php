@@ -128,3 +128,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <button type="submit">Proses Transaksi</button>
     </form>
+
+    <h2>Riwayat Transaksi</h2>
+    <?php if (empty($_SESSION['transactions'])): ?>
+        <p>Belum ada transaksi.</p>
+    <?php else: ?>
+        <!-- Terbaru di atas -->
+        <ul class="history">
+            <?php foreach (array_reverse($_SESSION['transactions']) as $t): ?>
+                <li>
+                    <!-- Sanitasi output = pertahanan XSS -->
+                    <span class="type-<?= htmlspecialchars($t['type']) ?>">
+                        <?= htmlspecialchars($t['type'] === 'deposit' ? 'Deposit' : 'Penarikan') ?>
+                    </span>
+                    &mdash; Rp<?= htmlspecialchars(number_format((float) $t['amount'], 2, ',', '.')) ?>
+                    (Saldo setelah: Rp<?= htmlspecialchars(number_format((float) $t['balance_after'], 2, ',', '.')) ?>)
+                    <br>
+                    <small><?= htmlspecialchars($t['time']) ?> &middot; ID: <?= htmlspecialchars($t['id']) ?></small>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+</body>
+</html>
