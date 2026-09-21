@@ -68,3 +68,24 @@ class Transaction
 
         return $success;
     }
+
+    // Deposit selalu berhasil, saldo bertambah.
+    private function processDeposit(float $currentBalance): bool
+    {
+        $_SESSION['balance'] = $currentBalance + $this->amount;
+
+        return true;
+    }
+
+    // Penarikan ditolak jika nominal melebihi saldo.
+    private function processWithdrawal(float $currentBalance): bool
+    {
+        if ($this->amount > $currentBalance) {
+            return false;
+        }
+
+        $_SESSION['balance'] = $currentBalance - $this->amount;
+
+        return true;
+    }
+}
