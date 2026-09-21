@@ -47,3 +47,24 @@ class Transaction
         }
 
         $currentBalance = (float) $_SESSION['balance'];
+
+                // match: cocokkan jenis transaksi secara ketat, tanpa break.
+        $success = match ($this->type) {
+            'deposit' => $this->processDeposit($currentBalance),
+            'withdrawal' => $this->processWithdrawal($currentBalance),
+            default => false,
+        };
+
+        // Catat ke riwayat hanya jika berhasil.
+        if ($success) {
+            $_SESSION['transactions'][] = [
+                'id' => $this->id,
+                'type' => $this->type,
+                'amount' => $this->amount,
+                'balance_after' => $_SESSION['balance'],
+                'time' => date('Y-m-d H:i:s'),
+            ];
+        }
+
+        return $success;
+    }
