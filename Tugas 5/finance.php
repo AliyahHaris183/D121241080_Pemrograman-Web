@@ -95,3 +95,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
     <h1>Sistem Manajemen Keuangan Sederhana</h1>
+
+    <!-- Saldo dicetak aman dengan htmlspecialchars -->
+    <div class="balance">
+        Saldo saat ini: Rp<?= htmlspecialchars(number_format((float) $_SESSION['balance'], 2, ',', '.')) ?>
+    </div>
+
+    <?php if ($success !== null): ?>
+        <p class="success"><?= htmlspecialchars($success) ?></p>
+    <?php endif; ?>
+
+    <?php if (!empty($errors)): ?>
+        <ul class="errors">
+            <?php foreach ($errors as $error): ?>
+                <li><?= htmlspecialchars($error) ?></li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
