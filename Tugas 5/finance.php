@@ -112,3 +112,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php endforeach; ?>
         </ul>
     <?php endif; ?>
+
+    <form method="post" action="finance.php">
+        <!-- Token CSRF tersembunyi, diverifikasi saat POST -->
+        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
+
+        <label for="type">Jenis Transaksi</label>
+        <select id="type" name="type" required>
+            <option value="deposit">Deposit</option>
+            <option value="withdrawal">Penarikan</option>
+        </select>
+
+        <label for="amount">Jumlah (Rp)</label>
+        <input type="text" id="amount" name="amount" placeholder="Contoh: 150000.00" required>
+
+        <button type="submit">Proses Transaksi</button>
+    </form>
