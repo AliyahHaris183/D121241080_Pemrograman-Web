@@ -31,3 +31,19 @@ class Transaction
     {
         return $this->amount;
     }
+
+    /**
+     * Memproses transaksi terhadap saldo di session.
+     * Menolak penarikan bila saldo tidak cukup.
+     */
+    public function process(): bool
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if (!isset($_SESSION['balance'])) {
+            $_SESSION['balance'] = 0.0;
+        }
+
+        $currentBalance = (float) $_SESSION['balance'];
