@@ -2,9 +2,9 @@
 
 | | |
 | --- | --- |
-| **Nama** | [Isi nama lengkap] |
-| **NIM** | [Isi NIM] |
-| **Mata Kuliah** | Pemrograman Website |
+| **Nama** | [Andi Nurul Aliyah Haris] |
+| **NIM** | [D121241080] |
+| **Mata Kuliah** | Pemrograman Web |
 | **Modul** | 6 — Pemodelan Data dan Konsep Basis Data Relasional |
 | **Institusi** | Departemen Teknik Informatika, Fakultas Teknik, Universitas Hasanuddin |
 
