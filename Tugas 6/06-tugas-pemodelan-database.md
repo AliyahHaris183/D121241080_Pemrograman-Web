@@ -253,3 +253,329 @@ Tiga penyempurnaan berikut ditambahkan setelah 3NF tercapai, dengan alasan masin
 3. **Denda dipisah dari `detail_peminjaman`, dan ditambahkan riwayat pembayarannya.** Sesuai Asumsi 6, denda perlu mendukung pembayaran bertahap, sehingga dipecah menjadi `denda` (tagihan) dan `pembayaran_denda` (histori pembayaran, boleh lebih dari satu baris per tagihan).
 
 Hasil akhir kedua belas tabel ini dirinci lengkap dengan tipe data pada Bagian 5.
+
+---
+
+## 5. Rancangan Tabel Akhir (Skema 3NF Lengkap)
+
+Tipe data mengacu pada MySQL/MariaDB, sejalan dengan Modul 7 (SQL dan phpMyAdmin).
+
+### 5.1 Modul Akademik & Anggota
+
+**Tabel `fakultas`**
+
+| Kolom | Tipe Data | Kunci | NULL | Keterangan |
+| --- | --- | --- | --- | --- |
+| `id_fakultas` | `INT AUTO_INCREMENT` | PK | Tidak | Kode unik fakultas |
+| `nama_fakultas` | `VARCHAR(100)` | UNIQUE | Tidak | Nama fakultas |
+
+**Tabel `program_studi`**
+
+| Kolom | Tipe Data | Kunci | NULL | Keterangan |
+| --- | --- | --- | --- | --- |
+| `id_prodi` | `INT AUTO_INCREMENT` | PK | Tidak | Kode unik program studi |
+| `nama_prodi` | `VARCHAR(100)` | UNIQUE | Tidak | Nama program studi |
+| `id_fakultas` | `INT` | FK | Tidak | Merujuk `fakultas.id_fakultas` |
+
+**Tabel `mahasiswa`**
+
+| Kolom | Tipe Data | Kunci | NULL | Keterangan |
+| --- | --- | --- | --- | --- |
+| `nim` | `VARCHAR(15)` | PK | Tidak | Nomor induk mahasiswa |
+| `id_prodi` | `INT` | FK | Tidak | Merujuk `program_studi.id_prodi` |
+| `nama_mahasiswa` | `VARCHAR(100)` | - | Tidak | Nama lengkap mahasiswa |
+| `email` | `VARCHAR(100)` | UNIQUE | Tidak | Surel aktif mahasiswa |
+
+### 5.2 Modul Katalog & Kepenulisan
+
+**Tabel `penerbit`**
+
+| Kolom | Tipe Data | Kunci | NULL | Keterangan |
+| --- | --- | --- | --- | --- |
+| `id_penerbit` | `INT AUTO_INCREMENT` | PK | Tidak | Kode unik penerbit |
+| `nama_penerbit` | `VARCHAR(100)` | UNIQUE | Tidak | Nama penerbit |
+| `kota_penerbit` | `VARCHAR(50)` | - | Tidak | Kota kedudukan penerbit |
+
+**Tabel `penulis`**
+
+| Kolom | Tipe Data | Kunci | NULL | Keterangan |
+| --- | --- | --- | --- | --- |
+| `id_penulis` | `INT AUTO_INCREMENT` | PK | Tidak | Kode unik penulis |
+| `nama_penulis` | `VARCHAR(100)` | - | Tidak | Nama penulis |
+
+**Tabel `buku`**
+
+| Kolom | Tipe Data | Kunci | NULL | Keterangan |
+| --- | --- | --- | --- | --- |
+| `id_buku` | `INT AUTO_INCREMENT` | PK | Tidak | Kode unik judul buku |
+| `isbn` | `VARCHAR(20)` | UNIQUE | Tidak | Nomor ISBN |
+| `judul_buku` | `VARCHAR(200)` | - | Tidak | Judul buku |
+| `tahun_terbit` | `YEAR` | - | Tidak | Tahun terbit |
+| `id_penerbit` | `INT` | FK | Tidak | Merujuk `penerbit.id_penerbit` |
+
+**Tabel `buku_penulis`** (junction, relasi many-to-many)
+
+| Kolom | Tipe Data | Kunci | NULL | Keterangan |
+| --- | --- | --- | --- | --- |
+| `id_buku` | `INT` | PK Komposit, FK | Tidak | Merujuk `buku.id_buku` |
+| `id_penulis` | `INT` | PK Komposit, FK | Tidak | Merujuk `penulis.id_penulis` |
+| `urutan_penulis` | `TINYINT` | - | Tidak | Urutan penulis (1 = penulis utama), default `1` |
+
+### 5.3 Modul Inventaris Fisik
+
+**Tabel `eksemplar`**
+
+| Kolom | Tipe Data | Kunci | NULL | Keterangan |
+| --- | --- | --- | --- | --- |
+| `kode_barcode` | `VARCHAR(50)` | PK | Tidak | Kode fisik unik per eksemplar |
+| `id_buku` | `INT` | FK | Tidak | Merujuk `buku.id_buku` |
+| `kondisi` | `ENUM('Baik','Rusak','Hilang')` | - | Tidak | Kondisi fisik, default `'Baik'` |
+| `status_tersedia` | `BOOLEAN` | - | Tidak | Ketersediaan saat ini, default `TRUE` |
+
+### 5.4 Modul Sirkulasi dan Keuangan
+
+**Tabel `peminjaman`** (header transaksi)
+
+| Kolom | Tipe Data | Kunci | NULL | Keterangan |
+| --- | --- | --- | --- | --- |
+| `id_peminjaman` | `INT AUTO_INCREMENT` | PK | Tidak | Nomor transaksi peminjaman |
+| `nim` | `VARCHAR(15)` | FK | Tidak | Merujuk `mahasiswa.nim` |
+| `tanggal_pinjam` | `DATE` | - | Tidak | Tanggal transaksi dibuat |
+| `tanggal_jatuh_tempo` | `DATE` | - | Tidak | Batas akhir pengembalian seluruh item, `>= tanggal_pinjam` |
+
+**Tabel `detail_peminjaman`** (rincian per eksemplar)
+
+| Kolom | Tipe Data | Kunci | NULL | Keterangan |
+| --- | --- | --- | --- | --- |
+| `id_detail` | `INT AUTO_INCREMENT` | PK | Tidak | Nomor baris item peminjaman |
+| `id_peminjaman` | `INT` | FK | Tidak | Merujuk `peminjaman.id_peminjaman` |
+| `kode_barcode` | `VARCHAR(50)` | FK | Tidak | Merujuk `eksemplar.kode_barcode` |
+| `tanggal_kembali` | `DATE` | - | **Ya** | `NULL` berarti belum dikembalikan |
+| `status_kembali` | `BOOLEAN` | - | Tidak | Default `FALSE`; lihat catatan denormalisasi di 5.5 |
+
+Constraint tambahan: `UNIQUE (id_peminjaman, kode_barcode)` agar satu eksemplar tidak tercatat dua kali dalam transaksi yang sama.
+
+**Tabel `denda`** (tagihan)
+
+| Kolom | Tipe Data | Kunci | NULL | Keterangan |
+| --- | --- | --- | --- | --- |
+| `id_denda` | `INT AUTO_INCREMENT` | PK | Tidak | Nomor tagihan denda |
+| `id_detail` | `INT` | FK, UNIQUE | Tidak | Merujuk `detail_peminjaman.id_detail`; maksimal satu tagihan per item |
+| `nominal_tagihan` | `DECIMAL(10,2)` | - | Tidak | Total denda, `>= 0` |
+| `status_lunas` | `BOOLEAN` | - | Tidak | Default `FALSE`; lihat catatan denormalisasi di 5.5 |
+
+**Tabel `pembayaran_denda`** (histori pembayaran, mendukung cicilan)
+
+| Kolom | Tipe Data | Kunci | NULL | Keterangan |
+| --- | --- | --- | --- | --- |
+| `id_pembayaran` | `INT AUTO_INCREMENT` | PK | Tidak | Nomor bukti pembayaran |
+| `id_denda` | `INT` | FK | Tidak | Merujuk `denda.id_denda` |
+| `tanggal_bayar` | `DATE` | - | Tidak | Tanggal pembayaran dilakukan |
+| `nominal_bayar` | `DECIMAL(10,2)` | - | Tidak | Nominal dibayarkan, `> 0` |
+
+**Contoh isi akhir (melanjutkan data contoh Bagian 4.1):**
+
+`peminjaman`
+
+| id_peminjaman | nim | tanggal_pinjam | tanggal_jatuh_tempo |
+| --- | --- | --- | --- |
+| 1 | D121241001 | 2026-09-01 | 2026-09-08 |
+| 2 | D121241001 | 2026-09-15 | 2026-09-22 |
+| 3 | D121241002 | 2026-09-03 | 2026-09-10 |
+
+`detail_peminjaman`
+
+| id_detail | id_peminjaman | kode_barcode | tanggal_kembali | status_kembali |
+| --- | --- | --- | --- | --- |
+| 1 | 1 | BC-001 | 2026-09-07 | TRUE |
+| 2 | 1 | BC-101 | 2026-09-10 | TRUE |
+| 3 | 2 | BC-002 | 2026-09-20 | TRUE |
+| 4 | 3 | BC-002 | 2026-09-09 | TRUE |
+
+`denda` dan `pembayaran_denda` (hanya item BC-101 yang telat, 2 hari x Rp1.000)
+
+| id_denda | id_detail | nominal_tagihan | status_lunas |
+| --- | --- | --- | --- |
+| 1 | 2 | 2000.00 | TRUE |
+
+| id_pembayaran | id_denda | tanggal_bayar | nominal_bayar |
+| --- | --- | --- | --- |
+| 1 | 1 | 2026-09-11 | 1000.00 |
+| 2 | 1 | 2026-09-14 | 1000.00 |
+
+### 5.5 Catatan: Denormalisasi Terkendali
+
+Dua kolom di atas secara teknis **redundan** terhadap kolom lain, tapi sengaja dipertahankan sebagai trade-off performa, bukan kesalahan normalisasi yang tidak disadari:
+
+- `detail_peminjaman.status_kembali` bisa diturunkan dari `tanggal_kembali IS NOT NULL`. Kolom ini dipertahankan agar query "daftar peminjaman aktif" bisa memakai index biasa tanpa bergantung pada pemeriksaan `NULL`.
+- `denda.status_lunas` bisa diturunkan dari `SUM(pembayaran_denda.nominal_bayar) >= nominal_tagihan`. Kolom ini dipertahankan agar status lunas/belum bisa difilter langsung tanpa agregasi setiap kali ditampilkan.
+
+Konsekuensinya, aplikasi (bukan basis data) bertanggung jawab menjaga kedua kolom ini tetap sinkron dengan sumber kebenarannya setiap kali terjadi transaksi pengembalian atau pembayaran.
+
+---
+
+## 6. Aturan Integritas Referensial
+
+Riwayat peminjaman dan riwayat keuangan adalah data historis yang wajib dipertahankan, sehingga sebagian besar relasi memakai `RESTRICT` pada penghapusan. Pengecualian diberi alasan eksplisit.
+
+| Foreign Key | Tabel Induk | ON DELETE | ON UPDATE | Alasan |
+| --- | --- | --- | --- | --- |
+| `program_studi.id_fakultas` | `fakultas` | RESTRICT | CASCADE | Fakultas tidak boleh dihapus selagi masih menaungi prodi |
+| `mahasiswa.id_prodi` | `program_studi` | RESTRICT | CASCADE | Prodi tidak boleh dihapus selagi masih punya mahasiswa aktif/riwayat |
+| `buku.id_penerbit` | `penerbit` | RESTRICT | CASCADE | Penerbit tidak boleh dihapus selagi masih menerbitkan buku |
+| `buku_penulis.id_buku` | `buku` | CASCADE | CASCADE | Baris relasi ini murni metadata asosiasi, tidak bermakna tanpa bukunya |
+| `buku_penulis.id_penulis` | `penulis` | CASCADE | CASCADE | Sama seperti di atas, untuk sisi penulis |
+| `eksemplar.id_buku` | `buku` | RESTRICT | CASCADE | Judul buku tidak boleh dihapus selagi masih ada eksemplar fisik terdaftar |
+| `peminjaman.nim` | `mahasiswa` | RESTRICT | CASCADE | Riwayat peminjaman mahasiswa wajib dipertahankan meski mahasiswa lulus |
+| `detail_peminjaman.id_peminjaman` | `peminjaman` | CASCADE | CASCADE | Baris detail tidak bermakna berdiri sendiri tanpa header transaksinya |
+| `detail_peminjaman.kode_barcode` | `eksemplar` | RESTRICT | CASCADE | Eksemplar yang pernah punya riwayat pinjam tidak boleh dihapus keras (gunakan `kondisi`/`status_tersedia` untuk menonaktifkan) |
+| `denda.id_detail` | `detail_peminjaman` | CASCADE | CASCADE | Mengikuti siklus hidup detail peminjamannya |
+| `pembayaran_denda.id_denda` | `denda` | RESTRICT | CASCADE | Riwayat pembayaran adalah jejak audit keuangan dan tidak boleh hilang otomatis |
+
+**Catatan interaksi CASCADE-RESTRICT:** menghapus satu `peminjaman` akan otomatis mem-berantai-hapus `detail_peminjaman` dan `denda` terkait (baris 8 dan 10). Namun jika `denda` tersebut sudah memiliki baris di `pembayaran_denda`, baris 11 (`RESTRICT`) akan menolak penghapusan di tengah rantai — sehingga transaksi yang sudah ada pembayarannya justru terlindungi dari penghapusan tidak sengaja, meski headernya sendiri diberi aturan CASCADE.
+
+---
+
+## 7. Visualisasi Relasi Kunci
+
+### 7.1 Diagram ERD (Mermaid)
+
+```mermaid
+erDiagram
+    fakultas ||--o{ program_studi : "menaungi"
+    program_studi ||--o{ mahasiswa : "diikuti_oleh"
+    penerbit ||--o{ buku : "menerbitkan"
+    buku ||--o{ buku_penulis : "memiliki_kontribusi"
+    penulis ||--o{ buku_penulis : "menulis"
+    buku ||--o{ eksemplar : "memiliki_salinan_fisik"
+    mahasiswa ||--o{ peminjaman : "melakukan"
+    peminjaman ||--|{ detail_peminjaman : "terdiri_dari"
+    eksemplar ||--o{ detail_peminjaman : "dipinjam_dalam"
+    detail_peminjaman ||--o| denda : "dapat_menghasilkan"
+    denda ||--o{ pembayaran_denda : "dicicil_melalui"
+
+    fakultas {
+        int id_fakultas PK
+        string nama_fakultas
+    }
+
+    program_studi {
+        int id_prodi PK
+        string nama_prodi
+        int id_fakultas FK
+    }
+
+    mahasiswa {
+        string nim PK
+        int id_prodi FK
+        string nama_mahasiswa
+        string email
+    }
+
+    penerbit {
+        int id_penerbit PK
+        string nama_penerbit
+        string kota_penerbit
+    }
+
+    penulis {
+        int id_penulis PK
+        string nama_penulis
+    }
+
+    buku {
+        int id_buku PK
+        string isbn
+        string judul_buku
+        int tahun_terbit
+        int id_penerbit FK
+    }
+
+    buku_penulis {
+        int id_buku PK
+        int id_penulis PK
+        int urutan_penulis
+    }
+
+    eksemplar {
+        string kode_barcode PK
+        int id_buku FK
+        string kondisi
+        boolean status_tersedia
+    }
+
+    peminjaman {
+        int id_peminjaman PK
+        string nim FK
+        date tanggal_pinjam
+        date tanggal_jatuh_tempo
+    }
+
+    detail_peminjaman {
+        int id_detail PK
+        int id_peminjaman FK
+        string kode_barcode FK
+        date tanggal_kembali
+        boolean status_kembali
+    }
+
+    denda {
+        int id_denda PK
+        int id_detail FK
+        decimal nominal_tagihan
+        boolean status_lunas
+    }
+
+    pembayaran_denda {
+        int id_pembayaran PK
+        int id_denda FK
+        date tanggal_bayar
+        decimal nominal_bayar
+    }
+```
+
+Notasi: `||` = tepat satu, `o{` = nol atau banyak, `|{` = satu atau banyak, `o|` = nol atau satu.
+
+### 7.2 Peta Relasi Kunci (Ringkasan, Diagram Alur Teks)
+
+```text
+fakultas -> program_studi -> mahasiswa -> peminjaman -> detail_peminjaman -> denda -> pembayaran_denda
+                                                                 ^
+                                                             eksemplar <- buku <- penerbit
+                                                                                    ^
+                                                                              buku_penulis <- penulis
+```
+
+Pembacaan diagram:
+- Anak panah menunjuk dari tabel anak (pemegang Foreign Key) ke tabel induk (pemegang Primary Key yang dirujuk).
+- `detail_peminjaman` adalah penghubung many-to-many antara `peminjaman` dan `eksemplar`.
+- `buku_penulis` adalah penghubung many-to-many antara `buku` dan `penulis`.
+- Setiap Foreign Key wajib merujuk nilai yang benar-benar ada di tabel induk.
+
+---
+
+## 8. Verifikasi 3NF per Tabel
+
+| Tabel | Kunci Utama | Ketergantungan Fungsional | Status |
+| --- | --- | --- | --- |
+| `fakultas` | `id_fakultas` | `id_fakultas` → `nama_fakultas` | 3NF |
+| `program_studi` | `id_prodi` | `id_prodi` → `nama_prodi`, `id_fakultas` | 3NF |
+| `mahasiswa` | `nim` | `nim` → `id_prodi`, `nama_mahasiswa`, `email` | 3NF |
+| `penerbit` | `id_penerbit` | `id_penerbit` → `nama_penerbit`, `kota_penerbit` | 3NF |
+| `penulis` | `id_penulis` | `id_penulis` → `nama_penulis` | 3NF |
+| `buku` | `id_buku` | `id_buku` → `isbn`, `judul_buku`, `tahun_terbit`, `id_penerbit` | 3NF |
+| `buku_penulis` | `id_buku` + `id_penulis` | (`id_buku`, `id_penulis`) → `urutan_penulis` | 3NF |
+| `eksemplar` | `kode_barcode` | `kode_barcode` → `id_buku`, `kondisi`, `status_tersedia` | 3NF |
+| `peminjaman` | `id_peminjaman` | `id_peminjaman` → `nim`, `tanggal_pinjam`, `tanggal_jatuh_tempo` | 3NF |
+| `detail_peminjaman` | `id_detail` (kandidat: `id_peminjaman`+`kode_barcode`) | `id_detail` → `id_peminjaman`, `kode_barcode`, `tanggal_kembali`, `status_kembali` | 3NF |
+| `denda` | `id_denda` | `id_denda` → `id_detail`, `nominal_tagihan`, `status_lunas` | 3NF |
+| `pembayaran_denda` | `id_pembayaran` | `id_pembayaran` → `id_denda`, `tanggal_bayar`, `nominal_bayar` | 3NF |
+
+Tidak ada tabel dengan atribut bukan-kunci yang bergantung pada atribut bukan-kunci lainnya, sehingga seluruh skema konsisten memenuhi 3NF.
+
+---
+
+## 9. Referensi
+
+1. Departemen Teknik Informatika, Universitas Hasanuddin. *Modul 6: Pemodelan Data dan Konsep Basis Data Relasional*, mata kuliah Pemrograman Website.
+2. Codd, E. F. (1970). "A Relational Model of Data for Large Shared Data Banks." *Communications of the ACM*, 13(6), 377-387.
