@@ -5,7 +5,7 @@
 | **Nama** | [Andi Nurul Aliyah Haris] |
 | **NIM** | [D121241080] |
 | **Mata Kuliah** | Pemrograman Web |
-| **Modul** | 6 — Pemodelan Data dan Konsep Basis Data Relasional |
+| **Modul** | 6, Pemodelan Data dan Konsep Basis Data Relasional |
 | **Institusi** | Departemen Teknik Informatika, Fakultas Teknik, Universitas Hasanuddin |
 
 ## Daftar Isi
@@ -35,11 +35,11 @@ Bagian 3 merancang keempat entitas tersebut persis sesuai spesifikasi. Bagian 4 
 ## 2. Asumsi dan Aturan Bisnis
 
 1. Satu transaksi peminjaman dapat mencakup **lebih dari satu buku** (mahasiswa sering meminjam beberapa buku sekaligus di satu kunjungan). Ini baru dapat terlihat setelah normalisasi, sehingga model logis awal di Bagian 3 masih menyederhanakannya sebagai satu transaksi = satu buku.
-2. Satu judul buku dapat memiliki **lebih dari satu penulis** (multi-pengarang), dan satu judul buku dapat memiliki **lebih dari satu eksemplar fisik** di rak (dikenali lewat kode barcode). Perpustakaan meminjamkan eksemplar fisik tertentu, bukan sekadar "judul buku".
+2. Satu judul buku dapat memiliki **lebih dari satu penulis** (multipengarang), dan satu judul buku dapat memiliki **lebih dari satu eksemplar fisik** di rak (dikenali lewat kode barcode). Perpustakaan meminjamkan eksemplar fisik tertentu, bukan sekadar "judul buku".
 3. Setiap buku diterbitkan oleh tepat satu penerbit. Satu penerbit dapat menerbitkan banyak buku.
 4. Mahasiswa tercatat pada satu program studi, dan satu program studi bernaung di bawah satu fakultas.
 5. Masa pinjam standar 7 hari, denda Rp1.000/hari keterlambatan (nilai contoh, dapat dikonfigurasi). Denda dicatat sebagai nilai historis per transaksi, bukan dihitung ulang otomatis, agar tidak berubah jika kebijakan berganti di kemudian hari.
-6. Denda dapat dibayar bertahap/mencicil, sehingga riwayat pembayaran perlu tersimpan terpisah dari tagihan itu sendiri — sejalan dengan cakupan skenario "riwayat peminjaman **dan pengembalian**".
+6. Denda dapat dibayar bertahap/mencicil, sehingga riwayat pembayaran perlu tersimpan terpisah dari tagihan itu sendiri—sejalan dengan cakupan skenario "riwayat peminjaman **dan pengembalian**".
 7. `tanggal_kembali` bernilai `NULL` selama eksemplar belum dikembalikan.
 8. Seluruh data contoh pada dokumen ini fiktif dan hanya untuk ilustrasi.
 
@@ -107,7 +107,7 @@ Seluruh data digabung dalam satu form per mahasiswa. Kolom riwayat peminjaman be
 
 Setiap sel dipastikan atomik. Karena ada **dua tingkat** kelompok berulang (item pinjaman, lalu penulis di dalamnya), setiap item dengan *n* penulis menghasilkan *n* baris — item BC-101 (2 penulis) pecah menjadi 2 baris yang identik kecuali kolom penulis.
 
-Kunci utama sementara: **(nim, kode_barcode, tanggal_pinjam, nama_penulis)** — empat kolom diperlukan karena barcode yang sama bisa dipinjam ulang pada tanggal berbeda, dan satu barcode pada satu tanggal pinjam bisa punya lebih dari satu baris hanya karena banyak penulis.
+Kunci utama sementara: **(nim, kode_barcode, tanggal_pinjam, nama_penulis)**—empat kolom diperlukan karena barcode yang sama bisa dipinjam ulang pada tanggal berbeda, dan satu barcode pada satu tanggal pinjam bisa punya lebih dari satu baris hanya karena banyak penulis.
 
 | nim | kode_barcode | tgl_pinjam | nama_penulis | nama_mhs | email | prodi | fakultas | isbn | judul_buku | tahun | nama_penerbit | kota_penerbit | jatuh_tempo | tgl_kembali | denda |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -117,7 +117,7 @@ Kunci utama sementara: **(nim, kode_barcode, tanggal_pinjam, nama_penulis)** —
 | D121241001 | BC-002 | 2026-09-15 | Budi Santoso | Rian | rian@student.unhas.ac.id | Informatika | Teknik | 9786020000011 | Dasar-Dasar Basis Data | 2021 | Informatika Nusantara | Bandung | 2026-09-22 | 2026-09-20 | 0 |
 | D121241002 | BC-002 | 2026-09-03 | Budi Santoso | Akbar | akbar@student.unhas.ac.id | Akuntansi | Ekonomi dan Bisnis | 9786020000011 | Dasar-Dasar Basis Data | 2021 | Informatika Nusantara | Bandung | 2026-09-10 | 2026-09-09 | 0 |
 
-**Masalah 1NF:** baris ke-2 dan ke-3 identik di semua kolom kecuali `nama_penulis` — redundansi murni akibat memaksakan atribut bernilai-jamak menjadi kolom biasa. "Informatika Nusantara"/"Bandung" juga terulang di tiga baris. Perubahan kecil (mis. kota penerbit pindah) harus diedit di banyak baris sekaligus (anomali ubah); menghapus baris BC-002 milik Akbar berisiko menghapus info penerbit jika baris itu satu-satunya kemunculan.
+**Masalah 1NF:** baris ke-2 dan ke-3 identik di semua kolom kecuali `nama_penulis`; redundansi murni akibat memaksakan atribut bernilai-jamak menjadi kolom biasa. "Informatika Nusantara"/"Bandung" juga terulang di tiga baris. Perubahan kecil (mis. kota penerbit pindah) harus diedit di banyak baris sekaligus (anomali ubah); menghapus baris BC-002 milik Akbar berisiko menghapus info penerbit jika baris itu satu-satunya kemunculan.
 
 **Analisis ketergantungan fungsional (FD):**
 
@@ -134,7 +134,7 @@ isbn                         -> {nama_penulis}   -- BUKAN FD biasa, melainkan
                                                      menulis banyak ISBN)
 ```
 
-Baris terakhir bukan ketergantungan fungsional sama sekali — `nama_penulis` tidak "ditentukan" oleh `isbn` karena nilainya bisa lebih dari satu. Ini pelanggaran atomicity/1NF pada level pemodelan, bukan sekadar isu 2NF/3NF, sehingga relasi penulis-buku harus segera dipisah menjadi relasi many-to-many tersendiri sebelum melanjutkan analisis dependensi kolom lainnya.
+Baris terakhir bukan ketergantungan fungsional sama sekali. `nama_penulis` tidak "ditentukan" oleh `isbn` karena nilainya bisa lebih dari satu. Ini pelanggaran atomicity/1NF pada level pemodelan, bukan sekadar isu 2NF/3NF, sehingga relasi penulis-buku harus segera dipisah menjadi relasi many-to-many tersendiri sebelum melanjutkan analisis dependensi kolom lainnya.
 
 ### 4.4 Konversi ke 2NF: Memisahkan Kelompok Many-to-Many dan Ketergantungan Parsial
 
@@ -175,7 +175,7 @@ Baris terakhir bukan ketergantungan fungsional sama sekali — `nama_penulis` ti
 | BC-002 | 2026-09-03 | D121241002 | 2026-09-10 | 2026-09-09 | 0 |
 
 **Masalah tersisa (transitif):**
-- Pada `buku_eksemplar_2nf`, `kode_barcode` bukan lagi kunci tunggal terhadap `isbn` — `isbn` sendiri menentukan `judul_buku`, `tahun`, dan (lewat penerbit) `nama_penerbit`/`kota_penerbit`. Jadi `kode_barcode -> isbn -> judul_buku` dan `kode_barcode -> isbn -> nama_penerbit -> kota_penerbit` adalah rantai transitif **dua tingkat**.
+- Pada `buku_eksemplar_2nf`, `kode_barcode` bukan lagi kunci tunggal terhadap `isbn`. `isbn` sendiri menentukan `judul_buku`, `tahun`, dan (lewat penerbit) `nama_penerbit`/`kota_penerbit`. Jadi `kode_barcode -> isbn -> judul_buku` dan `kode_barcode -> isbn -> nama_penerbit -> kota_penerbit` adalah rantai transitif **dua tingkat**.
 - Pada `mahasiswa_2nf`, `nim -> prodi -> fakultas` adalah ketergantungan transitif: fakultas ditentukan oleh prodi, bukan langsung oleh nim.
 
 ### 4.5 Konversi ke 3NF: Menghilangkan Ketergantungan Transitif
@@ -217,7 +217,7 @@ Rantai masih menyisakan `isbn -> nama_penerbit -> kota_penerbit`, sehingga pener
 | 1 | Informatika | Teknik |
 | 2 | Akuntansi | Ekonomi dan Bisnis |
 
-`nama_fakultas` di tabel ini masih berulang setiap kali ada prodi baru di fakultas yang sama — jika Universitas menambah prodi "Sistem Informasi" di Fakultas Teknik, nama "Teknik" akan tertulis ulang. Ini transitif tingkat kedua (`id_prodi -> nama_fakultas`) yang tidak terlihat pada dua baris contoh di atas (karena kedua fakultas kebetulan berbeda), tetapi akan muncul begitu ada dua prodi dalam satu fakultas yang sama. Untuk konsisten dan aman dari kasus tersebut, fakultas dipisah juga:
+`nama_fakultas` di tabel ini masih berulang setiap kali ada prodi baru di fakultas yang sama; jika Universitas menambah prodi "Sistem Informasi" di Fakultas Teknik, nama "Teknik" akan tertulis ulang. Ini transitif tingkat kedua (`id_prodi -> nama_fakultas`) yang tidak terlihat pada dua baris contoh di atas (karena kedua fakultas kebetulan berbeda), tetapi akan muncul begitu ada dua prodi dalam satu fakultas yang sama. Untuk konsisten dan aman dari kasus tersebut, fakultas dipisah juga:
 
 **Tabel `fakultas_3nf`** (kunci baru `id_fakultas`)
 
@@ -249,7 +249,7 @@ Pada titik ini seluruh tabel telah memenuhi 3NF secara formal: **fakultas, progr
 Tiga penyempurnaan berikut ditambahkan setelah 3NF tercapai, dengan alasan masing-masing (bukan karena melanggar bentuk normal manapun):
 
 1. **`penulis_2nf` diberi kunci pengganti.** Nama penulis dijadikan entitas `penulis(id_penulis, nama_penulis)` dan relasinya menjadi tabel penghubung `buku_penulis(id_buku, id_penulis)`, agar nama penulis yang sama (mis. penulis produktif dengan banyak judul) tidak diketik ulang dan rawan salah eja di setiap baris relasi.
-2. **`peminjaman_2nf` dipecah menjadi header dan detail.** Karena satu transaksi kunjungan mahasiswa bisa mencakup beberapa eksemplar sekaligus (Asumsi 1 di Bagian 2), data dikelompokkan ulang menjadi `peminjaman` (header: `id_peminjaman`, `nim`, `tanggal_pinjam`, `tanggal_jatuh_tempo`) dan `detail_peminjaman` (baris per eksemplar: `id_detail`, `id_peminjaman`, `kode_barcode`, `tanggal_kembali`). Pola *header-detail* ini lazim untuk transaksi multi-item dan tidak mengubah status normalisasi, karena `(id_peminjaman, kode_barcode)` tetap merupakan kunci kandidat yang sah untuk `detail_peminjaman` — `id_detail` hanya kunci pengganti yang lebih ringkas dirujuk oleh tabel lain.
+2. **`peminjaman_2nf` dipecah menjadi header dan detail.** Karena satu transaksi kunjungan mahasiswa bisa mencakup beberapa eksemplar sekaligus (Asumsi 1 di Bagian 2), data dikelompokkan ulang menjadi `peminjaman` (header: `id_peminjaman`, `nim`, `tanggal_pinjam`, `tanggal_jatuh_tempo`) dan `detail_peminjaman` (baris per eksemplar: `id_detail`, `id_peminjaman`, `kode_barcode`, `tanggal_kembali`). Pola *header-detail* ini lazim untuk transaksi multi-item dan tidak mengubah status normalisasi, karena `(id_peminjaman, kode_barcode)` tetap merupakan kunci kandidat yang sah untuk `detail_peminjaman`—`id_detail` hanya kunci pengganti yang lebih ringkas dirujuk oleh tabel lain.
 3. **Denda dipisah dari `detail_peminjaman`, dan ditambahkan riwayat pembayarannya.** Sesuai Asumsi 6, denda perlu mendukung pembayaran bertahap, sehingga dipecah menjadi `denda` (tagihan) dan `pembayaran_denda` (histori pembayaran, boleh lebih dari satu baris per tagihan).
 
 Hasil akhir kedua belas tabel ini dirinci lengkap dengan tipe data pada Bagian 5.
@@ -432,7 +432,7 @@ Riwayat peminjaman dan riwayat keuangan adalah data historis yang wajib dipertah
 | `denda.id_detail` | `detail_peminjaman` | CASCADE | CASCADE | Mengikuti siklus hidup detail peminjamannya |
 | `pembayaran_denda.id_denda` | `denda` | RESTRICT | CASCADE | Riwayat pembayaran adalah jejak audit keuangan dan tidak boleh hilang otomatis |
 
-**Catatan interaksi CASCADE-RESTRICT:** menghapus satu `peminjaman` akan otomatis mem-berantai-hapus `detail_peminjaman` dan `denda` terkait (baris 8 dan 10). Namun jika `denda` tersebut sudah memiliki baris di `pembayaran_denda`, baris 11 (`RESTRICT`) akan menolak penghapusan di tengah rantai — sehingga transaksi yang sudah ada pembayarannya justru terlindungi dari penghapusan tidak sengaja, meski headernya sendiri diberi aturan CASCADE.
+**Catatan interaksi CASCADE-RESTRICT:** menghapus satu `peminjaman` akan otomatis mem-berantai-hapus `detail_peminjaman` dan `denda` terkait (baris 8 dan 10). Namun jika `denda` tersebut sudah memiliki baris di `pembayaran_denda`, baris 11 (`RESTRICT`) akan menolak penghapusan di tengah rantai, sehingga transaksi yang sudah ada pembayarannya justru terlindungi dari penghapusan tidak sengaja, meski header-nya sendiri diberi aturan CASCADE.
 
 ---
 
