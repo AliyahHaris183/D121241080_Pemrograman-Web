@@ -78,3 +78,45 @@ class GuestBook
  
         return $errors;
     }
+
+    /**
+     * Menyimpan satu pesan. Nilai diikat sebagai parameter, tidak pernah
+     * digabungkan ke string query, sehingga aman dari SQL injection.
+     *
+     * @throws PDOException bila penyimpanan gagal
+     */
+    public function save(string $nama, string $email, string $pesan): bool
+    {
+        $sql = 'INSERT INTO buku_tamu (nama, email, pesan)
+                VALUES (:nama, :email, :pesan)';
+ 
+        $stmt = $this->pdo->prepare($sql);
+ 
+        return $stmt->execute([
+            'nama'  => $nama,
+            'email' => $email,
+            'pesan' => $pesan,
+        ]);
+    }
+ 
+    /**
+     * Mengambil pesan terbaru lebih dahulu.
+     *
+     * @return list<array{id: int|string, nama: string, email: string, pesan: string, tanggal_kirim: string}>
+     * @throws PDOException bila query gagal
+     */
+    public function getAll(int $limit = 50): array
+    {
+        $sql = 'SELECT id, nama, email, pesan, tanggal_kirim
+                FROM buku_tamu
+                ORDER BY tanggal_kirim DESC, id DESC
+                LIMIT :limit';
+ 
+        $stmt = $this->pdo->prepare($sql);
+        // LIMIT harus berupa integer, sehingga diikat eksplisit dengan PARAM_INT
+        $stmt->bindValue(':limit', max(1, $limit), PDO::PARAM_INT);
+        $stmt->execute();
+ 
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+}
