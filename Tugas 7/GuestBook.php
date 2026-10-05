@@ -44,3 +44,37 @@ class GuestBook
             'pesan' => $clean('pesan'),
         ];
     }
+
+    /**
+     * Validasi masukan. Hasil kosong berarti semua data valid.
+     *
+     * @param  array{nama: string, email: string, pesan: string}  $data
+     * @return array<string, string>  [nama_field => pesan galat]
+     */
+    public function validate(array $data): array
+    {
+        $errors = [];
+ 
+        // Nama: tidak boleh kosong
+        if ($data['nama'] === '') {
+            $errors['nama'] = 'Nama tidak boleh kosong.';
+        } elseif (mb_strlen($data['nama']) > self::NAMA_MAX) {
+            $errors['nama'] = 'Nama maksimal ' . self::NAMA_MAX . ' karakter.';
+        }
+ 
+        // Email: format valid
+        if (filter_var($data['email'], FILTER_VALIDATE_EMAIL) === false) {
+            $errors['email'] = 'Format email tidak valid.';
+        } elseif (mb_strlen($data['email']) > self::EMAIL_MAX) {
+            $errors['email'] = 'Email maksimal ' . self::EMAIL_MAX . ' karakter.';
+        }
+ 
+        // Pesan: minimal lima karakter (mb_strlen agar karakter UTF-8 dihitung benar)
+        if (mb_strlen($data['pesan']) < self::PESAN_MIN) {
+            $errors['pesan'] = 'Pesan minimal ' . self::PESAN_MIN . ' karakter.';
+        } elseif (mb_strlen($data['pesan']) > self::PESAN_MAX) {
+            $errors['pesan'] = 'Pesan maksimal ' . self::PESAN_MAX . ' karakter.';
+        }
+ 
+        return $errors;
+    }
