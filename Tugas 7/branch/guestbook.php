@@ -43,3 +43,50 @@ function newCsrfToken(): string
 {
     return bin2hex(random_bytes(32));
 }
+ 
+/* ------------------------------------------------------------
+ * 3. Inisialisasi
+ * ---------------------------------------------------------- */
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = newCsrfToken();
+}
+ 
+$guestBook = new GuestBook((new Database())->getConnection());
+ 
+$errors  = [];
+$old     = ['nama' => '', 'email' => '', 'pesan' => ''];
+$success = $_SESSION['flash'] ?? null; // pesan sukses satu kali tampil
+unset($_SESSION['flash']);
+ 
+/* ------------------------------------------------------------
+ * 4. Pemrosesan formulir (POST)
+ * ---------------------------------------------------------- */
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $token = $_POST['csrf_token'] ?? '';
+ 
+    // Pertahanan 1: token CSRF (hash_equals mencegah timing attack)
+    if (!is_string($token) || !hash_equals($_SESSION['csrf_token'], $token)) {
+        http_response_code(403);
+        $errors['umum'] = 'Sesi formulir tidak valid atau sudah kedaluwarsa. Muat ulang halaman, lalu coba lagi.';
+    } else {
+        $old    = GuestBook::normalize($_POST);
+        $errors = $guestBook->validate($old);
+ 
+        if ($errors === []) {
+            try {
+                $guestBook->save($old['nama'], $old['email'], $old['pesan']);
+ 
+                // Token diganti setelah dipakai, lalu redirect (Post/Redirect/Get)
+                // agar refresh browser tidak mengirim ulang pesan yang sama.
+                $_SESSION['csrf_token'] = newCsrfToken();
+                $_SESSION['flash']      = 'Terima kasih! Pesan Anda berhasil dikirim.';
+                header('Location: guestbook.php');
+                exit;
+            } catch (PDOException $e) {
+                error_log('GuestBook save error: ' . $e->getMessage());
+                http_response_code(500);
+                $errors['umum'] = 'Pesan belum dapat disimpan. Silakan coba beberapa saat lagi.';
+            }
+        }
+    }
+}
